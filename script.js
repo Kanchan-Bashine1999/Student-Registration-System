@@ -3,8 +3,9 @@
 //Javascript Code
 const recordForm = document.getElementById('record-form');
 const nameInput = document.getElementById('name');
-const ageInput = document.getElementById('age');
+const studentidInput = document.getElementById('studentid');
 const emailInput = document.getElementById('email');
+const rollnoInput = document.getElementById('rollno');
 const recordList = document.getElementById('record-list');
 const editIndexInput = document.getElementById('edit-index');
 
@@ -31,8 +32,9 @@ function displayRecords() {
       const row = document.createElement('tr');
       row.innerHTML = `
                     <td>${record.name}</td>
-                    <td>${record.age}</td>
+                    <td>${record.studentid}</td>
                     <td>${record.email}</td>
+                    <td>${record.rollno}</td>
                     <td><button onclick="editRecord(${index})">Edit</button></td>
                     <td class="deleteButton"><button onclick="deleteRecord(${index})">Delete</button></td>
                 `;
@@ -45,11 +47,12 @@ function displayRecords() {
 recordForm.addEventListener('submit', function (e) {
   e.preventDefault();
   const name = nameInput.value;
-  const age = ageInput.value;
+  const studentid = studentidInput.value;
   const email = emailInput.value;
+  const rollno = rollnoInput.value;
   const editIndex = parseInt(editIndexInput.value);
 
-  if (name && age && email) {
+  if (name && studentid && email &&rollno) {
     if (isDuplicateName(email) && editIndex === -1) {
       alert('Student already exists.');
       return;
@@ -57,17 +60,18 @@ recordForm.addEventListener('submit', function (e) {
 
     if (editIndex === -1) {
       // Add a new records
-      records.push({ name, age, email });
+      records.push({ name, studentid, email, rollno });
     } else {
       // Update existing record
-      records[editIndex] = { name, age, email };
+      records[editIndex] = { name, studentid, email, rollno };
       editIndexInput.value = -1;
     }
 
     localStorage.setItem('records', JSON.stringify(records));
     nameInput.value = '';
-    ageInput.value = '';
+    studentidInput.value = '';
     emailInput.value = '';
+    rollnoInput.value = '';
     displayRecords();
   }
 });
@@ -76,8 +80,9 @@ recordForm.addEventListener('submit', function (e) {
 function editRecord(index) {
   const recordToEdit = records[index];
   nameInput.value = recordToEdit.name;
-  ageInput.value = recordToEdit.age;
+  studentidInput.value = recordToEdit.studentid;
   emailInput.value = recordToEdit.email;
+  rollnoInput.value = recordToEdit.rollno;
   editIndexInput.value = index;
 }
 
